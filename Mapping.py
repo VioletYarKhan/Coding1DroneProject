@@ -1,25 +1,22 @@
 from djitellopy import tello
 import keyPressModule as kp
-import time
-import cv2
+from time import sleep
 
 
+# Parameters
+fSpeed = 117/10  # Forward speed in cm/second    (15 cm/s)
+aSpeed = 360/10  # Angular speed in degrees/second
+interval = 0.25
+
+dInterval = fSpeed * interval
+aInterval = aSpeed * interval
+#
 
 
 kp.init()
 eggbert = tello.Tello()
 eggbert.connect()
 print("Battery: " + str(eggbert.get_battery()))
-global img
-
-eggbert.streamon()
-
-def goToAngle(yawEnd):
-    while (eggbert.get_yaw() != yawEnd):
-        if (eggbert.get_yaw() > yawEnd):
-            eggbert.rotate_clockwise(1)
-        else:
-            eggbert.rotate_counter_clockwise(1)
 
 def getKeyboardInput():
     lr, fb, ud, yv = 0, 0, 0, 0
@@ -37,21 +34,16 @@ def getKeyboardInput():
     if kp.getKey("a"): yv = speed
     elif kp.getKey("d"): yv = -speed
 
-    if kp.getKey("q"): eggbert.land()
-    if kp.getKey("e"): eggbert.takeoff()
+    if kp.getKey("q"): eggbert.land
+    if kp.getKey("e"): eggbert.takeoff
 
-    if kp.getKey("z"):
-        cv2.imwrite(f'Resources/Images/{time.time()}.jpg', img)
-        time.sleep(0.3)
 
     return [lr, fb, ud, yv]
+
 
 while True:
     vals = getKeyboardInput()
     eggbert.send_rc_control(vals[0], vals[1], vals[2], vals[3])
-    img = eggbert.get_frame_read().frame
-    img = cv2.resize(img, (360, 240))
-    cv2.imshow("Image", img)
-    cv2.waitKey(2)
+    sleep(0.05)
 
 

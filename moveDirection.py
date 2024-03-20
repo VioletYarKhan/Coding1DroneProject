@@ -2,7 +2,7 @@ from djitellopy import tello
 
 from time import sleep
 
-eggbert=tello.Tello()
+eggbert = tello.Tello()
 eggbert.connect()
 print("Battery: " + str(eggbert.get_battery()))
 

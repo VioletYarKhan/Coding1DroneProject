@@ -6,7 +6,7 @@ from time import sleep
 
 
 kp.init()
-eggbert=tello.Tello()
+eggbert = tello.Tello()
 eggbert.connect()
 print("Battery: " + str(eggbert.get_battery()))
 
@@ -28,6 +28,7 @@ def getKeyboardInput():
 
     if kp.getKey("q"): eggbert.land
     if kp.getKey("e"): eggbert.takeoff
+
 
     return [lr, fb, ud, yv]
 
