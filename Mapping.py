@@ -8,8 +8,8 @@ fSpeed = 117/10  # Forward speed in cm/second    (15 cm/s)
 aSpeed = 360/10  # Angular speed in degrees/second
 interval = 0.25
 
-dInterval = fSpeed * interval
-aInterval = aSpeed * interval
+dInterval = fSpeed * interval  # 3.75 cm
+aInterval = aSpeed * interval  # 9 degrees/second
 #
 
 
