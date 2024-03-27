@@ -43,6 +43,11 @@ def toPose(x, y, rot):
     time.sleep(goToAngle(rot, pose[2]))
     pose = [x, y, rot]
 
+
+def resetPose():
+    global pose
+    pose = [0, 0, 0]
+
 def getKeyboardInput():
     lr, fb, ud, yv = 0, 0, 0, 0
     speed = 50
