@@ -12,7 +12,7 @@ kp.init()
 eggbert = tello.Tello()
 eggbert.connect()
 # x, y, rot
-pose = [0, 0, 0]
+pose2D = [0, 0, 0]
 print("Battery: " + str(eggbert.get_battery()))
 global img
 
@@ -32,36 +32,39 @@ def goDistance(distCm):
     eggbert.move_forward(distCm)
     time.sleep(distCm / 50)
 
-def toPose(x, y, rot):
-    global pose
-    print(math.degrees(math.atan2((x - pose[0]) / (y - pose[1]))))
+def toPose2D(x, y, rot):
+    global pose2D
     # Calculate angle to new pose in degrees
-    angleToNewPose = math.degrees(math.atan((x - pose[0]) / (y - pose[1])))
+    angleToNewPose = math.degrees(math.atan((x - pose2D[0]) / (y - pose2D[1])))
     # Rotate to new angle
-    time.sleep(goToAngle(angleToNewPose, pose[2]))
+    time.sleep(goToAngle(angleToNewPose, pose2D[2]))
     # Move to new position
-    goDistance(math.sqrt((x - pose[0]) ^ 2) + (y - pose[1]) ^ 2)
+    goDistance(math.sqrt((x - pose2D[0]) ^ 2) + (y - pose2D[1]) ^ 2)
     # Rotate to desired final orientation
-    time.sleep(goToAngle(rot, pose[2]))
+    time.sleep(goToAngle(rot, pose2D[2]))
     # Update pose
-    pose = [x, y, rot]
+    pose2D = [x, y, rot]
 
-def resetPose():
-    global pose
-    pose = [0, 0, 0]
+def resetPose2D():
+    global pose2D
+    pose2D = [0, 0, 0]
 
-def getImg():
+def background():
     while True:
         img = eggbert.get_frame_read().frame
         img = cv2.resize(img, (360, 240))
         cv2.imshow("Image", img)
         cv2.waitKey(2)
+        if kp.getKey("z"): eggbert.land()
+        if kp.getKey("x"): eggbert.emergancy()
 
-imgCap = threading.Thread(target=getImg, args=(1,))
-imgCap.start()
+back = threading.Thread(target=background, args=(1,))
+back.start()
 
 
 # Example usage
-resetPose()
-toPose(100, 0, 90)
-toPose(0, 0, 0)
+eggbert.takeoff()
+resetPose2D()
+toPose2D(100, 0, 90)
+toPose2D(0, 0, 0)
+eggbert.land()
