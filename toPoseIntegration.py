@@ -35,9 +35,9 @@ def goDistance(distCm):
 def toPose2D(x, y, rot):
     global pose2D
     # Calculate angle to new pose in degrees
-    angleToNewPose = math.degrees(math.atan((x - pose2D[0]) / (y - pose2D[1])))
+    angleToNewPose = math.degrees(math.atan2((x - pose2D[0]), (y - pose2D[1])))
     # Rotate to new angle
-    time.sleep(goToAngle(angleToNewPose, pose2D[2]))
+    time.sleep(goToAngle(int(angleToNewPose), pose2D[2]))
     # Move to new position
     goDistance(math.sqrt((x - pose2D[0]) ^ 2) + (y - pose2D[1]) ^ 2)
     # Rotate to desired final orientation
