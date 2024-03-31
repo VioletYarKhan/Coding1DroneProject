@@ -20,13 +20,13 @@ eggbert.streamon()
 
 
 def goToAngle(yawEnd, yawStart):
-    dist = (yawEnd - yawStart + 180) % 360 - 180
     # Find shortest rotation direction
-    if (dist > 0):
-        eggbert.rotate_clockwise(dist)
+    yawDist = (yawEnd - yawStart + 180) % 360 - 180
+    if (yawDist > 0):
+        eggbert.rotate_clockwise(yawDist)
     else:
-        eggbert.rotate_counter_clockwise(math.abs(dist))
-    return ((1/36) * (math.fabs(yawStart - yawEnd)))
+        eggbert.rotate_counter_clockwise(math.abs(yawDist))
+    return ((1/36) * (math.fabs(yawDist)))
 
 
 def goDistance(distCm):
@@ -40,7 +40,7 @@ def toPose2D(x, y, rot):
     # Rotate to new angle
     time.sleep(goToAngle(int(angleToNewPose), pose2D[2]))
     # Move to new position
-    goDistance(math.sqrt((x - pose2D[0]) ^ 2) + (y - pose2D[1]) ^ 2)
+    goDistance(math.sqrt((x - pose2D[0]) ** 2) + (y - pose2D[1]) ** 2)
     # Rotate to desired final orientation
     time.sleep(goToAngle(rot, pose2D[2]))
     # Update pose
@@ -59,8 +59,8 @@ def background():
         if kp.getKey("z"): eggbert.land()
         if kp.getKey("x"): eggbert.emergancy()
 
-back = threading.Thread(target=background, args=(1,))
-back.start()
+backThread = threading.Thread(target=background, args=(1,))
+backThread.start()
 
 
 # Example usage
