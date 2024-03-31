@@ -20,11 +20,12 @@ eggbert.streamon()
 
 
 def goToAngle(yawEnd, yawStart):
+    dist = (yawEnd - yawStart + 180) % 360 - 180
     # Find shortest rotation direction
-    if (eggbert.get_yaw() > yawEnd):
-        eggbert.rotate_clockwise(yawEnd - yawStart)
+    if (dist > 0):
+        eggbert.rotate_clockwise(dist)
     else:
-        eggbert.rotate_counter_clockwise(yawStart - yawEnd)
+        eggbert.rotate_counter_clockwise(math.abs(dist))
     return ((1/36) * (math.fabs(yawStart - yawEnd)))
 
 
@@ -65,6 +66,9 @@ back.start()
 # Example usage
 eggbert.takeoff()
 resetPose2D()
-toPose2D(100, 0, 90)
+
+toPose2D(0, 0, 90)
 toPose2D(0, 0, 0)
+toPose2D(0, 0, 290)
+
 eggbert.land()
